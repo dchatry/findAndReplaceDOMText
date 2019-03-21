@@ -8,16 +8,7 @@
  * in the specified element.
  */
  (function (root, factory) {
-     if (typeof module === 'object' && module.exports) {
-         // Node/CommonJS
-         module.exports = factory();
-     } else if (typeof define === 'function' && define.amd) {
-         // AMD. Register as an anonymous module.
-         define(factory);
-     } else {
-         // Browser globals
-         root.findAndReplaceDOMText = factory();
-     }
+   root.findAndReplaceDOMText = factory();
  }(this, function factory() {
 
 	var PORTION_MODE_RETAIN = 'retain';
@@ -196,7 +187,7 @@
 			var matches = [];
 			var self = this;
 
-			regex = typeof regex === 'string' ? RegExp(escapeRegExp(regex), 'g') : regex;
+			regex = typeof regex === 'string' ? RegExp(escapeRegExp(regex), 'gi') : regex;
 
 			matchAggregation(textAggregation);
 
@@ -260,7 +251,9 @@
 			 * to broken innerText/textContent
 			 */
 			function getText(node) {
-
+				if(typeof node === 'undefined') {
+					return [];
+				}
 				if (node.nodeType === Node.TEXT_NODE) {
 					return [node.data];
 				}
